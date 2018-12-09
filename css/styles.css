@@ -125,6 +125,10 @@ header h1 {
    Modal
 ======================================== */
 
+.hide {
+    display: none;
+}
+
 .modal-container {
     position: fixed;
     top: 0;
@@ -132,7 +136,6 @@ header h1 {
     bottom: 0;
     left: 0;
     background: rgba(0, 0, 0, 0.7);
-    display: none;
 }
 
 .modal {

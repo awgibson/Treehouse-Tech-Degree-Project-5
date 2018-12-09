@@ -5,6 +5,7 @@ window.addEventListener('load', function (event) {
     <input type="submit" value="&#x1F50D;" id="serach-submit" class="search-submit">
     </form>`;
     const gallery = document.querySelector('#gallery');
+    const users = [];
 
 
     document.querySelector('.search-container').innerHTML = searchHTML;
@@ -34,6 +35,7 @@ window.addEventListener('load', function (event) {
                     birthday: allInfo.dob.date,
                     galleryNumber: arrayPosition
                 }
+                users.push(user);
                 buildGalleryCard(user);
             });
     };
@@ -51,7 +53,7 @@ window.addEventListener('load', function (event) {
         </div>
     </div>`;
 
-        const modalHTML = `<div id="${user.galleryNumber}" class="modal-container">
+        let modalHTML = `<div id="${user.galleryNumber}" class="modal-container hide">
     <div class="modal">
         <button type="button" id="modal-close-btn" class="modal-close-btn"><strong>X</strong></button>
         <div class="modal-info-container">
@@ -74,16 +76,65 @@ window.addEventListener('load', function (event) {
 </div>`;
 
         document.querySelector('#gallery').insertAdjacentHTML('beforeend', galleryHTML);
-        document.querySelector('#gallery').insertAdjacentHTML('afterend', modalHTML);
+        document.querySelector('#gallery').insertAdjacentHTML('beforebegin', modalHTML);
+
     };
 
-    gallery.addEventListener('click', function (e) {
-        if (e.target.className === 'card' || e.target.parentElement.className === 'card-info-container' || e.target.parentElement.className === 'card-img-container' || e.target.parentElement.className === 'card') {
-            console.log(e.target.parentNode);
-
-
+    document.addEventListener('click', function (e) {
+        const cards = gallery.querySelectorAll('.card');
+        const modals = document.querySelectorAll('.modal-container');
+        let userNumber = 0;
+        // console.log(cards);
+        // console.log(modals);
+        console.log(e.target.parentElement.parentElement);
+        if (e.target.className === 'card') {
+            userNumber = e.target.id;
+            modals[userNumber].classList.remove('hide');
+        }
+        if (e.target.parentElement.className === 'card') {
+            userNumber = e.target.parentElement.id;
+            modals[userNumber].classList.remove('hide');
+        }
+        if (e.target.parentElement.parentElement.className === 'card') {
+            userNumber = e.target.parentElement.parentElement.id;
+            modals[userNumber].classList.remove('hide');
         }
 
+
+        if (e.target.id === 'modal-close-btn') {
+            console.log('click');
+            console.log(e.target.parentElement.parentElement);
+            e.target.parentElement.parentElement.classList.add('hide');
+        }
+        if (e.target.parentElement.id === 'modal-close-btn') {
+            e.target.parentElement.parentElement.parentElement.classList.add('hide');
+        }
+
+        if (e.target.id === 'modal-next') {
+            userNumber = e.target.parentElement.parentElement.id;
+            if (userNumber < modals.length - 1) {
+                modals[userNumber].classList.add('hide');
+                userNumber++;
+                modals[userNumber].classList.remove('hide');
+            }
+        }
+
+        if (e.target.id === 'modal-prev') {
+            userNumber = e.target.parentElement.parentElement.id;
+            console.log(userNumber);
+            if (userNumber > 0) {
+                modals[userNumber].classList.add('hide');
+                userNumber--;
+                modals[userNumber].classList.remove('hide');
+            }
+        }
+
+
+
+        // || 
+
     });
+
+
 
 });
